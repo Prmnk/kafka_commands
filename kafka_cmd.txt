@@ -1,0 +1,25 @@
+-- kafka on windows
+
+-- Step 1 - Start zookeeper
+
+.\bin\windows\zookeeper-server-start.bat .\config\zookeeper.properties
+
+-- Step 2 - Start Kakfa
+
+.\bin\windows\kafka-server-start.bat .\config\server.properties
+
+-- Step 3 - Create a Topic
+
+.\bin\windows\kafka-topics.bat --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic testtopic
+
+-- Step 4 List topic to confirm
+
+.\bin\windows\kafka-topics.bat --list --zookeeper localhost:2181
+
+-- Step 5 Create Producer
+
+.\bin\windows\kafka-console-producer.bat --broker-list localhost:9092 --topic testtopic
+
+-- Step 6 Create Consumer
+
+.\bin\windows\kafka-console-consumer.bat --bootstrap-server localhost:9092 --topic testtopic --from-beginning
