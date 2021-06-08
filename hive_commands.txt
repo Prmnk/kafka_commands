@@ -1,0 +1,36 @@
+load data inpath '/data/products.csv' overwrite into table prodcuts_managed;
+
+create table prodcuts_managed(id string, title string, cist float) row format delimited fields terminated by ',' stored as textfile;
+
+create external table products(id string, title string, cost float)row format delimited fields terminated by ',' location '/data/';
+
+Select author_name, b_name from author_details lateral view explode(book_names)tab2  as b_name;
+
+create table author_details(author_name string, book_names array<string>) row format delimited fields terminated by ',' collection items terminated by ":";
+
+
+create table mobileph(id string, title string,cost float, colors array<string>, screensize array<float>) row format delimited fields terminated by ',' 
+collection items terminated by '#';
+
+
+create table mobileph1(id string, title string,cost float, colors array<string>, screensize array<float>, features map<string, boolean>) row format delimited fields terminated by ',' 
+collection items terminated by '#' map keys terminated by ':';
+
+
+create table mobileph2(id string, title string,cost float, colors array<string>, screensize array<float>, features map<string, boolean>, info struct<battery:string, camera:string>) row format delimited fields terminated by ',' 
+collection items terminated by '#' map keys terminated by ':';
+
+create table orders_w_p(id string, cust_id string, product_id string,quantity int, amt double, zipcode char(5)) partitioned by (state char(2))
+ row format delimited fields terminated by ',' ;
+
+set hive.exec.dynamic.partition=true;
+ set hive.exec.dynamic.partition.mode=nonstrit
+ 
+ create table orders_dp(id string, cust_id string, product_id string,quantity int, amt double, zipcode char(5)) partitioned by( state char(2)) row format delimited fields terminated by ',';
+insert into table orders_dp partition (state) Select * from orders_no
+
+Select * from product_db tablesample( bucket 2 out of 4);
+
+From product_no_b insert into product_db Select id,name, cost, category;
+
+Select * from product_db tablesample( bucket 2 out of 4);
